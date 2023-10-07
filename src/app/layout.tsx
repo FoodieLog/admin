@@ -23,7 +23,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <body className={inter.className}>
-        <main className="flex gap-10">
+        <main className="flex min-h-screen mx-auto">
           <SideBar />
           {children}
         </main>
