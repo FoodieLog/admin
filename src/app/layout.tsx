@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import SideBar from "@/components/SideBar/index";
+import StyledComponentsRegistry from "@/lib/AntdRegistry";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <main className="flex min-h-screen mx-auto">
           <SideBar />
-          {children}
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </main>
       </body>
     </html>
