@@ -20,6 +20,13 @@ export const getUserList = async () => {
   return res.data;
 };
 
+// 신고 목록 조회
+export const getReportList = async () => {
+  const res = await userRequest.get("/admin/report/list");
+
+  return res.data;
+};
+
 // 영구 정지
 export const postBlockMember = async (body: BlockBody) => {
   const res = await userRequest.post("/admin/member/block", body);
