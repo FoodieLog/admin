@@ -27,3 +27,8 @@ export interface TableProps {
 export interface ModalProps {
   children: JSX.Element;
 }
+
+export interface BlockBody {
+  reason: string;
+  userId: number;
+}
