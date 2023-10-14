@@ -5,6 +5,7 @@ import { getUserList } from "@/api/request";
 import TableForm from "@/components/Table/TableForm";
 import Modal from "@/components/Modal";
 import TextArea from "antd/es/input/TextArea";
+import Buttom from "@/components/Buttom";
 
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);
@@ -46,13 +47,11 @@ export default function Home() {
         </Modal>
       )}
       <p className="text-lg">회원 목록 조회</p>
-      <button
-        type="button"
+      <Buttom
         onClick={onClickBtn}
-        className="px-5 py-2 bg-red-500 text-white rounded-md place-self-end"
-      >
-        영구 차단
-      </button>
+        styles="bg-red-500 place-self-end"
+        text="영구차단"
+      />
       <TableForm columns={USER_LIST_COLUMNS} data={data} />
     </div>
   );
