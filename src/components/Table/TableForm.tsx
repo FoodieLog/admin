@@ -1,7 +1,6 @@
 import { Table } from "antd";
 import expandedRowRender from "./expandedRowRender";
 import { TableProps } from "@/types";
-import Modal from "@/components/Modal";
 import { useState } from "react";
 
 function TableForm({ columns, data, expand = false }: TableProps) {
