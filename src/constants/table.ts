@@ -1,5 +1,5 @@
 import type { ColumnsType } from "antd/es/table";
-import { DataType } from "@/types";
+import { DataType, ReportDataType } from "@/types";
 
 export const USER_COLUMNS = [
   "보기",
@@ -58,5 +58,43 @@ export const USER_LIST_COLUMNS: ColumnsType<DataType> = [
     title: "상태",
     dataIndex: "userStatus",
     key: "userStatus",
+  },
+];
+
+export const REPORT_LIST_COLUMNS: ColumnsType<ReportDataType> = [
+  {
+    title: "보기",
+    dataIndex: "type",
+    key: "type",
+  },
+  {
+    title: "피신고자",
+    dataIndex: "reported",
+    key: "reported",
+  },
+  {
+    title: "신고자",
+    dataIndex: "reporter",
+    key: "reporter",
+  },
+  {
+    title: "신고이유",
+    dataIndex: "reason",
+    key: "reason",
+  },
+  {
+    title: "신고시간",
+    dataIndex: "createdAt",
+    key: "createdAt",
+  },
+  {
+    title: "처리시간",
+    dataIndex: "updatedAt",
+    key: "updatedAt",
+  },
+  {
+    title: "상태",
+    dataIndex: "status",
+    key: "status",
   },
 ];
