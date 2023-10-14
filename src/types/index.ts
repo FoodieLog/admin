@@ -14,16 +14,11 @@ export interface DataType {
 }
 
 export interface TableProps {
-  columns: ColumnsType<DataType>;
-  data: DataType[];
+  columns: ColumnsType<any>;
+  data: any[];
   expand?: boolean;
 }
 
-export interface TableProps {
-  columns: ColumnsType<DataType>;
-  data: DataType[];
-  expand?: boolean;
-}
 export interface ModalProps {
   children: JSX.Element;
 }
@@ -31,4 +26,26 @@ export interface ModalProps {
 export interface BlockBody {
   reason: string;
   userId: number;
+}
+
+export interface ReportDataType {
+  createdAt: string;
+  detail: {
+    content: string;
+    feedId: number;
+    feedImages: string[];
+  };
+  reason: string;
+  reportId: number;
+  reported: {
+    email: string;
+    nickName: string;
+  };
+  reporter: {
+    email: string;
+    nickName: string;
+  };
+  status: string;
+  type: string;
+  updatedAt: string;
 }
