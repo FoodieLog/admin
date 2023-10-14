@@ -23,6 +23,12 @@ export interface ModalProps {
   children: JSX.Element;
 }
 
+export interface PatchReportBody {
+  contentId: number;
+  reportedId: number;
+  status: string;
+}
+
 export interface BlockBody {
   reason: string;
   userId: number;
