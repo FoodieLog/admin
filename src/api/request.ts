@@ -1,5 +1,5 @@
 import { userRequest, authRequest } from "@/api";
-import { BlockBody } from "@/types";
+import { BlockBody, PatchReportBody } from "@/types";
 
 // 로그인
 interface Login {
@@ -24,6 +24,12 @@ export const getUserList = async () => {
 export const getReportList = async () => {
   const res = await userRequest.get("/admin/report/list");
 
+  return res.data;
+};
+
+// 신고 처리
+export const patchReport = async (body: PatchReportBody) => {
+  const res = await userRequest.patch("/admin/report/process", body);
   return res.data;
 };
 
