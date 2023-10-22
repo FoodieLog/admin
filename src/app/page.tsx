@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, ReactElement } from "react";
 import { USER_LIST_COLUMNS } from "@/constants/table";
-import { getUserList } from "@/api/request";
+import { getUserList, postBlockMember } from "@/api/request";
 import TableForm from "@/components/Table/TableForm";
 import Modal from "@/components/Modal";
 import TextArea from "antd/es/input/TextArea";
@@ -10,6 +10,7 @@ import Buttom from "@/components/Buttom";
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState([]);
+  const [reason, setReason] = useState("");
   useEffect(() => {
     getUserListData();
   }, []);
@@ -27,6 +28,18 @@ export default function Home() {
   const onClickBtn = () => {
     setOpenModal(true);
   };
+  const onClickConfirm = async () => {
+    try {
+      await postBlockMember({ userId, reason });
+    } catch (err) {}
+    setOpenModal(false);
+  };
+  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.preventDefault();
+    if (e.target.value.trim()) {
+      setReason(e.target.value.trim());
+    }
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -36,11 +49,11 @@ export default function Home() {
             <h2>영구차단하시겠습니까?</h2>
             <p>영구차단 사유를 작성해 주세요.</p>
             <p>회원이 작성 사유를 확인할 수 있습니다.</p>
-            <TextArea />
+            <TextArea onChange={onChangeTextArea} />
             <button type="button" onClick={() => setOpenModal(false)}>
               취소
             </button>
-            <button type="button" onClick={() => setOpenModal(false)}>
+            <button type="button" onClick={onClickConfirm}>
               확인
             </button>
           </div>
