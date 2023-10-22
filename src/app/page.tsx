@@ -1,18 +1,24 @@
 "use client";
 import { useEffect, useState, ReactElement } from "react";
 import { USER_LIST_COLUMNS } from "@/constants/table";
-import { getUserList } from "@/api/request";
+import { getUserList, postBlockMember } from "@/api/request";
 import TableForm from "@/components/Table/TableForm";
 import Modal from "@/components/Modal";
 import TextArea from "antd/es/input/TextArea";
 import Buttom from "@/components/Buttom";
+import useUserStore from "@/store/useUserStore";
 
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState([]);
+  const [reason, setReason] = useState("");
+  const [reload, setReload] = useState(false);
+  const { userId, setUserId, nickName, setNickName, status, setStatus } =
+    useUserStore();
+
   useEffect(() => {
     getUserListData();
-  }, []);
+  }, [reload]);
 
   const getUserListData = async () => {
     try {
@@ -25,7 +31,43 @@ export default function Home() {
   };
 
   const onClickBtn = () => {
+    if (!userId && !nickName) {
+      return alert("회원을 선택해 주세요.");
+    }
+    if (status === "BLOCK") {
+      return alert("이미 영구차단된 회원입니다.");
+    }
+    if (nickName === "관리자") {
+      return alert("관리자는 차단할 수 없습니다.");
+    }
     setOpenModal(true);
+  };
+
+  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.preventDefault();
+    setReason(e.target.value.trim());
+  };
+
+  const onClickConfirm = async () => {
+    if (!reason) {
+      return alert("사유를 입력해 주세요.");
+    }
+
+    try {
+      await postBlockMember({ userId, reason });
+      setReload(!reload);
+      setOpenModal(false);
+      setUserId(0);
+      setNickName("");
+    } catch (err) {
+      console.log("영구정지 실패", err);
+    }
+  };
+
+  const onClickCancle = () => {
+    setOpenModal(false);
+    setUserId(0);
+    setNickName("");
   };
 
   return (
@@ -33,16 +75,24 @@ export default function Home() {
       {openModal && (
         <Modal>
           <div>
-            <h2>영구차단하시겠습니까?</h2>
+            <h2 className="text-xl mb-3">
+              <strong>{nickName}</strong>님을 영구차단하시겠습니까?
+            </h2>
             <p>영구차단 사유를 작성해 주세요.</p>
-            <p>회원이 작성 사유를 확인할 수 있습니다.</p>
-            <TextArea />
-            <button type="button" onClick={() => setOpenModal(false)}>
-              취소
-            </button>
-            <button type="button" onClick={() => setOpenModal(false)}>
-              확인
-            </button>
+            <p className="mb-3">회원이 작성 사유를 확인할 수 있습니다.</p>
+            <TextArea onChange={onChangeTextArea} className="mb-3" />
+            <div className="w-full flex justify-center gap-3">
+              <Buttom
+                text="취소"
+                onClick={onClickCancle}
+                styles="bg-gray-400"
+              />
+              <Buttom
+                text="확인"
+                onClick={onClickConfirm}
+                styles="bg-red-400"
+              />
+            </div>
           </div>
         </Modal>
       )}
