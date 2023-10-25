@@ -1,5 +1,6 @@
 import type { ColumnsType } from "antd/es/table";
 import { DataType, ReportDataType } from "@/types";
+import { formatDate } from '@/util'
 
 export const USER_COLUMNS = [
   "보기",
@@ -47,6 +48,7 @@ export const USER_LIST_COLUMNS: ColumnsType<DataType> = [
     title: "가입시기",
     dataIndex: "createdAt",
     key: "createdAt",
+    render: (text: string) => formatDate(text),
   },
   {
     title: "신고승인횟수",
