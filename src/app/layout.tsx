@@ -4,6 +4,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import SideBar from "@/components/SideBar/index";
 import StyledComponentsRegistry from "@/lib/AntdRegistry";
+import ReactQueryProvider from "@/util/ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <main className="flex min-h-screen mx-auto">
           <SideBar />
-          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          <StyledComponentsRegistry>
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </StyledComponentsRegistry>
         </main>
       </body>
     </html>
