@@ -61,9 +61,14 @@ export const patchRestoreWithdrawer = async (withdrawId: string) => {
 };
 
 // 뱃지 처리 현황 조회
-export const getBadgeList = async (processedStatus: string) => {
+export const getBadgeList = async (
+  processedStatus: string,
+  nickName?: string
+) => {
   const { data } = await userRequest.get(
-    `/admin/member/badge/list?processedStatus=${processedStatus}`
+    `/admin/member/badge/list?processedStatus=${processedStatus}${
+      nickName ? `&nickName=${nickName}` : ""
+    }`
   );
   return data;
 };
