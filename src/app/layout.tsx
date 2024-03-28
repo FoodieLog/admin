@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import SideBar from "@/components/SideBar/index";
 import StyledComponentsRegistry from "@/lib/AntdRegistry";
 import ReactQueryProvider from "@/util/ReactQueryProvider";
+import AuthCheck from "@/components/AuthCheck";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
       </Head>
       <body className={inter.className}>
         <main className="flex min-h-screen mx-auto">
+          <AuthCheck />
           <SideBar />
           <StyledComponentsRegistry>
             <ReactQueryProvider>{children}</ReactQueryProvider>
