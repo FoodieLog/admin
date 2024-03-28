@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getBadgeList, patchBadgeStatus } from "@/api/request";
-import { Radio, Button, Input, Select, Table } from "antd";
+import { Radio, Input, Select, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import Button from "@/components/Button";
+import CustomButton from "@/components/Button";
 import { formatDate } from "@/util";
 
 const { Option } = Select;
@@ -29,7 +29,7 @@ const BadgeManagement = () => {
   >(null);
 
   const fetchBadgeApplications = async () => {
-    const { response } = await getBadgeList(processedStatus);
+    const { response } = await getBadgeList(processedStatus, nickName);
     setApplications(response.content);
   };
 
@@ -121,7 +121,7 @@ const BadgeManagement = () => {
             </Select>
           </div>
           <div className="ml-4">
-            <Button
+            <CustomButton
               onClick={fetchBadgeApplications}
               styles="bg-red-500 place-self-end text-sm"
               text="검색"
@@ -132,7 +132,7 @@ const BadgeManagement = () => {
       <div className="flex justify-end mb-3">
         {" "}
         {/* 이 div는 뱃지 버튼을 담고 오른쪽 정렬합니다 */}
-        <Button
+        <CustomButton
           text="뱃지 반려"
           styles="bg-orange-500 place-self-end mr-2 text-sm"
           onClick={() => {
@@ -141,7 +141,7 @@ const BadgeManagement = () => {
             }
           }}
         />
-        <Button
+        <CustomButton
           text="뱃지 승인"
           styles="bg-blue-500 place-self-end mr-2 text-sm"
           onClick={() => {
