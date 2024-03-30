@@ -99,7 +99,11 @@ export default function Home() {
         text={blockLoading ? "진행중..." : "영구차단"}
         disabled={blockLoading}
       />
-      <TableForm columns={USER_LIST_COLUMNS} data={data?.response.content} />
+      <TableForm
+        columns={USER_LIST_COLUMNS}
+        data={data?.response.content}
+        page="user"
+      />
     </div>
   );
 }
