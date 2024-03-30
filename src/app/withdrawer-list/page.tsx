@@ -144,7 +144,11 @@ const WithdrawnMembers = () => {
           text="검색"
         />
       </div>
-      <Table columns={columns} dataSource={members} />
+      <Table
+        columns={columns}
+        dataSource={members}
+        rowKey={(record) => record.withdrawId}
+      />
     </div>
   );
 };

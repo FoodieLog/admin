@@ -151,7 +151,11 @@ const BadgeManagement = () => {
           }}
         />
       </div>
-      <Table columns={columns} dataSource={applications} />
+      <Table
+        columns={columns}
+        dataSource={applications}
+        rowKey={(record) => record.badgeApplyId}
+      />
     </div>
   );
 };
