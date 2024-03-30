@@ -6,14 +6,20 @@ import { useEffect } from "react";
 const AuthCheck: React.FC = () => {
   const router = useRouter();
   const pathName = usePathname();
-  const expiryDateString = localStorage.getItem("admin-token-expiration");
-  const expiryDate = Number(expiryDateString);
+  let expiryDate: number | null = null;
+
+  if (typeof window !== "undefined") {
+    const expiryDateString = localStorage.getItem("admin-token-expiration");
+    expiryDate = expiryDateString ? Number(expiryDateString) : null;
+  }
 
   useEffect(() => {
-    const token = localStorage.getItem("admin-token");
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("admin-token");
 
-    if (!token || expiryDate < Date.now()) {
-      router.push("/login");
+      if (!token || expiryDate === null || expiryDate < Date.now()) {
+        router.push("/login");
+      }
     }
   }, [expiryDate, router, pathName]);
 
