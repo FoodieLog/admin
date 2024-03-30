@@ -1,6 +1,6 @@
 import type { ColumnsType } from "antd/es/table";
 import { DataType, ReportDataType } from "@/types";
-import { formatDate } from '@/util'
+import { formatDate } from "@/util";
 
 export const USER_COLUMNS = [
   "보기",
@@ -71,12 +71,12 @@ export const REPORT_LIST_COLUMNS: ColumnsType<ReportDataType> = [
   },
   {
     title: "피신고자",
-    dataIndex: "reported",
+    dataIndex: ["reported", "nickName"],
     key: "reported",
   },
   {
     title: "신고자",
-    dataIndex: "reporter",
+    dataIndex: ["reporter", "nickName"],
     key: "reporter",
   },
   {
