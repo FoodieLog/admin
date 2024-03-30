@@ -1,41 +1,38 @@
 // WithdrawnMembers.tsx
-"use client"
-import { useEffect, useState } from "react"
-import { getWithdrawerList, patchRestoreWithdrawer } from "@/api/request"
-import axios from "axios"
-import { Radio, Button, Input, Select, Table } from "antd"
-import { ColumnsType } from "antd/es/table"
-import Buttom from "@/components/Buttom"
-import { formatDate } from '@/util'
+"use client";
+import { useState } from "react";
+import { getWithdrawerList, patchRestoreWithdrawer } from "@/api/request";
+import { Radio, Input, Button, Select, Table } from "antd";
+import { ColumnsType } from "antd/es/table";
+import CustomButton from "@/components/Button";
+import { formatDate } from "@/util";
 
-const { Option } = Select
+const { Option } = Select;
 
 interface WithdrawnMember {
-  withdrawId: number
-  nickName: string
-  email: string
-  flag: string
-  feedCount: number
-  replyCount: number
-  createdAt: string
-  withDrawAt: string
-  withdrawReason: string
+  withdrawId: number;
+  nickName: string;
+  email: string;
+  flag: string;
+  feedCount: number;
+  replyCount: number;
+  createdAt: string;
+  withDrawAt: string;
+  withdrawReason: string;
 }
 
 const WithdrawnMembers = () => {
-  const [members, setMembers] = useState<WithdrawnMember[]>([])
-  const [badge, setBadge] = useState<string>("N") // Default '일반'
-  const [searchType, setSearchType] = useState<string>("all")
-  const [nickName, setNickName] = useState<string>("")
-
-
+  const [members, setMembers] = useState<WithdrawnMember[]>([]);
+  const [badge, setBadge] = useState<string>("N"); // Default '일반'
+  const [searchType, setSearchType] = useState<string>("all");
+  const [nickName, setNickName] = useState<string>("");
 
   // 복구 승인 버튼 클릭 시 실행될 함수
   const restoreMember = async (withdrawId: number) => {
-    await patchRestoreWithdrawer(withdrawId.toString())
+    await patchRestoreWithdrawer(withdrawId.toString());
     // 화면 재렌더링을 위해 목록 다시 불러오기
-    fetchWithdrawnMembers()
-  }
+    fetchWithdrawnMembers();
+  };
 
   const columns: ColumnsType<WithdrawnMember> = [
     {
@@ -94,27 +91,27 @@ const WithdrawnMembers = () => {
         </Button>
       ),
     },
-  ]
+  ];
 
   const fetchWithdrawnMembers = async () => {
     const { response } = await getWithdrawerList(
       badge,
       searchType === "nickname" ? nickName : undefined
-    )
-    setMembers(response.content)
-  }
+    );
+    setMembers(response.content);
+  };
 
   const handleSelectChange = (value: string) => {
-    setBadge(value)
-  }
+    setBadge(value);
+  };
 
   const handleRadioChange = (e: any) => {
-    setSearchType(e.target.value)
-  }
+    setSearchType(e.target.value);
+  };
 
   const handleNickNameChange = (e: any) => {
-    setNickName(e.target.value)
-  }
+    setNickName(e.target.value);
+  };
 
   return (
     <div className="flex flex-col">
@@ -141,15 +138,19 @@ const WithdrawnMembers = () => {
           <Option value="Y">특별</Option>
         </Select>
         <span className="mr-4"></span>
-        <Buttom
+        <CustomButton
           onClick={fetchWithdrawnMembers}
           styles="bg-red-500 place-self-end text-sm"
           text="검색"
         />
       </div>
-      <Table columns={columns} dataSource={members} />
+      <Table
+        columns={columns}
+        dataSource={members}
+        rowKey={(record) => record.withdrawId}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default WithdrawnMembers
+export default WithdrawnMembers;

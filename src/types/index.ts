@@ -16,6 +16,7 @@ export interface DataType {
 export interface TableProps {
   columns: ColumnsType<any>;
   data: any[];
+  page: "user" | "report";
   expand?: boolean;
 }
 
@@ -44,10 +45,12 @@ export interface ReportDataType {
   reason: string;
   reportId: number;
   reported: {
+    id: number;
     email: string;
     nickName: string;
   };
   reporter: {
+    id: number;
     email: string;
     nickName: string;
   };
