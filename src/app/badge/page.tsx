@@ -1,44 +1,44 @@
-"use client"
-import { useEffect, useState } from "react"
-import { getBadgeList, patchBadgeStatus } from "@/api/request"
-import { Radio, Button, Input, Select, Table } from "antd"
-import { ColumnsType } from "antd/es/table"
-import Buttom from "@/components/Buttom"
-import { formatDate } from '@/util'
+"use client";
+import { useState } from "react";
+import { getBadgeList, patchBadgeStatus } from "@/api/request";
+import { Radio, Input, Select, Table } from "antd";
+import { ColumnsType } from "antd/es/table";
+import CustomButton from "@/components/Button";
+import { formatDate } from "@/util";
 
-const { Option } = Select
+const { Option } = Select;
 
 interface BadgeApplication {
-  badgeApplyId: number
-  nickName: string
-  email: string
-  feedCount: number
-  replyCount: number
-  followerCount: number
-  applyAt: string
-  processedStatus: string
+  badgeApplyId: number;
+  nickName: string;
+  email: string;
+  feedCount: number;
+  replyCount: number;
+  followerCount: number;
+  applyAt: string;
+  processedStatus: string;
 }
 
 const BadgeManagement = () => {
-  const [applications, setApplications] = useState<BadgeApplication[]>([])
-  const [searchType, setSearchType] = useState<string>("all")
-  const [nickName, setNickName] = useState<string>("")
-  const [processedStatus, setProcessedStatus] = useState<string>("UNPROCESSED")
+  const [applications, setApplications] = useState<BadgeApplication[]>([]);
+  const [searchType, setSearchType] = useState<string>("all");
+  const [nickName, setNickName] = useState<string>("");
+  const [processedStatus, setProcessedStatus] = useState<string>("UNPROCESSED");
   const [selectedBadgeApplyId, setSelectedBadgeApplyId] = useState<
     number | null
-  >(null)
+  >(null);
 
   const fetchBadgeApplications = async () => {
-    const { response } = await getBadgeList(processedStatus)
-    setApplications(response.content)
-  }
+    const { response } = await getBadgeList(processedStatus, nickName);
+    setApplications(response.content);
+  };
 
   const handleBadgeStatus = async (badgeApplyId: number, process: string) => {
     if (selectedBadgeApplyId !== null) {
-      await patchBadgeStatus(badgeApplyId, process)
-      fetchBadgeApplications()
+      await patchBadgeStatus(badgeApplyId, process);
+      fetchBadgeApplications();
     }
-  }
+  };
   const columns: ColumnsType<BadgeApplication> = [
     {
       title: "",
@@ -86,7 +86,7 @@ const BadgeManagement = () => {
       dataIndex: "processedStatus",
       key: "processedStatus",
     },
-  ]
+  ];
 
   return (
     <div>
@@ -121,7 +121,7 @@ const BadgeManagement = () => {
             </Select>
           </div>
           <div className="ml-4">
-            <Buttom
+            <CustomButton
               onClick={fetchBadgeApplications}
               styles="bg-red-500 place-self-end text-sm"
               text="검색"
@@ -132,28 +132,32 @@ const BadgeManagement = () => {
       <div className="flex justify-end mb-3">
         {" "}
         {/* 이 div는 뱃지 버튼을 담고 오른쪽 정렬합니다 */}
-        <Buttom
+        <CustomButton
           text="뱃지 반려"
           styles="bg-orange-500 place-self-end mr-2 text-sm"
           onClick={() => {
             if (selectedBadgeApplyId !== null) {
-              handleBadgeStatus(selectedBadgeApplyId, "rejected")
+              handleBadgeStatus(selectedBadgeApplyId, "rejected");
             }
           }}
         />
-        <Buttom
+        <CustomButton
           text="뱃지 승인"
           styles="bg-blue-500 place-self-end mr-2 text-sm"
           onClick={() => {
             if (selectedBadgeApplyId !== null) {
-              handleBadgeStatus(selectedBadgeApplyId, "approved")
+              handleBadgeStatus(selectedBadgeApplyId, "approved");
             }
           }}
         />
       </div>
-      <Table columns={columns} dataSource={applications} />
+      <Table
+        columns={columns}
+        dataSource={applications}
+        rowKey={(record) => record.badgeApplyId}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default BadgeManagement
+export default BadgeManagement;

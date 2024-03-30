@@ -27,6 +27,10 @@ function Login() {
         password: admin.password,
       });
       localStorage.setItem("admin-token", response.accessToken);
+      localStorage.setItem(
+        "admin-token-expiration",
+        (Date.now() + 1000 * 60 * 29).toString()
+      );
       router.replace("/");
     } catch (err) {
       console.log("관리자 로그인 실패", err);
