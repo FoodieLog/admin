@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { USER_LIST_COLUMNS } from "@/constants/table";
 import TableForm from "@/components/Table/TableForm";
 import Modal from "@/components/Modal";
@@ -11,6 +11,7 @@ import usePostBlockMemberMutation from "@/queries/usePostBlockMemberMutation";
 
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
   const [reason, setReason] = useState("");
   const { userId, setUserId, nickName, setNickName, status } = useUserStore();
 
@@ -19,7 +20,12 @@ export default function Home() {
     isLoading,
     isError: isGetUserListError,
     error: getUserListError,
-  } = useGetUserListQuery();
+    prefetchNextPage,
+  } = useGetUserListQuery(pageNumber - 1);
+
+  useEffect(() => {
+    prefetchNextPage();
+  }, [pageNumber, prefetchNextPage]);
 
   const { mutate, isLoading: blockLoading } = usePostBlockMemberMutation({
     userId,
@@ -103,6 +109,8 @@ export default function Home() {
         columns={USER_LIST_COLUMNS}
         data={data?.response.content}
         page="user"
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
       />
     </div>
   );
