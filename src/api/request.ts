@@ -14,19 +14,15 @@ export const login = async (body: Login) => {
 };
 
 // 회원 목록 조회
-export const getUserList = async (pageNum?: number) => {
-  const { data } = await userRequest.get(
-    `/admin/member/list${pageNum ? `?pageNumber=${pageNum}` : ""}`
-  );
+export const getUserList = async (pageNum: number) => {
+  const { data } = await userRequest.get(`/admin/member/list?page=${pageNum}`);
 
   return data;
 };
 
 // 신고 목록 조회
-export const getReportList = async (pageNum?: number) => {
-  const { data } = await userRequest.get(
-    `/admin/report/list${pageNum ? `?pageNumber=${pageNum}` : ""}`
-  );
+export const getReportList = async (pageNum: number) => {
+  const { data } = await userRequest.get(`/admin/report/list?page=${pageNum}`);
 
   return data;
 };
