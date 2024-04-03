@@ -1,5 +1,5 @@
 import type { ColumnsType } from "antd/es/table";
-import { ReactElement } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 export interface DataType {
   approveCount: number;
@@ -17,6 +17,9 @@ export interface TableProps {
   columns: ColumnsType<any>;
   data: any[];
   page: "user" | "report";
+  pageNumber: number;
+  setPageNumber: Dispatch<SetStateAction<number>>;
+  totalPage: number;
   expand?: boolean;
 }
 
@@ -39,7 +42,8 @@ export interface ReportDataType {
   createdAt: string;
   detail: {
     content: string;
-    feedId: number;
+    feedId?: number;
+    id?: number;
     feedImages: string[];
   };
   reason: string;

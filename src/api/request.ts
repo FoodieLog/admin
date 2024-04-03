@@ -14,19 +14,15 @@ export const login = async (body: Login) => {
 };
 
 // 회원 목록 조회
-export const getUserList = async (pageNum?: number) => {
-  const { data } = await userRequest.get(
-    `/admin/member/list${pageNum ? `?pageNumber=${pageNum}` : ""}`
-  );
+export const getUserList = async (pageNum: number) => {
+  const { data } = await userRequest.get(`/admin/member/list?page=${pageNum}`);
 
   return data;
 };
 
 // 신고 목록 조회
-export const getReportList = async (pageNum?: number) => {
-  const { data } = await userRequest.get(
-    `/admin/report/list${pageNum ? `?pageNumber=${pageNum}` : ""}`
-  );
+export const getReportList = async (pageNum: number) => {
+  const { data } = await userRequest.get(`/admin/report/list?page=${pageNum}`);
 
   return data;
 };
@@ -45,9 +41,13 @@ export const postBlockMember = async (body: BlockBody) => {
 };
 
 // 탈퇴 회원 조회
-export const getWithdrawerList = async (badge: string, nickName?: string) => {
+export const getWithdrawerList = async (
+  badge: string,
+  pageNum: number,
+  nickName?: string
+) => {
   const { data } = await userRequest.get(
-    `/admin/member/withdraw/list?badge=${badge}${
+    `/admin/member/withdraw/list?page=${pageNum}&badge=${badge}${
       nickName ? `&nickName=${nickName}` : ""
     }`
   );
@@ -67,10 +67,11 @@ export const patchRestoreWithdrawer = async (withdrawId: string) => {
 // 뱃지 처리 현황 조회
 export const getBadgeList = async (
   processedStatus: string,
+  pageNum: number,
   nickName?: string
 ) => {
   const { data } = await userRequest.get(
-    `/admin/member/badge/list?processedStatus=${processedStatus}${
+    `/admin/member/badge/list?page=${pageNum}&processedStatus=${processedStatus}${
       nickName ? `&nickName=${nickName}` : ""
     }`
   );

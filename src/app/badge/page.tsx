@@ -5,6 +5,8 @@ import { Radio, Input, Select, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import CustomButton from "@/components/Button";
 import { formatDate } from "@/util";
+import useGetBadgeQuery from "@/queries/useGetBadgeQuery";
+import useBadgeMutation from "@/queries/useBadgeMutation";
 
 const { Option } = Select;
 
@@ -20,25 +22,24 @@ interface BadgeApplication {
 }
 
 const BadgeManagement = () => {
-  const [applications, setApplications] = useState<BadgeApplication[]>([]);
-  const [searchType, setSearchType] = useState<string>("all");
   const [nickName, setNickName] = useState<string>("");
+  const [nickNameData, setNickNameData] = useState<string>("");
+  const [searchType, setSearchType] = useState<string>("all");
   const [processedStatus, setProcessedStatus] = useState<string>("UNPROCESSED");
   const [selectedBadgeApplyId, setSelectedBadgeApplyId] = useState<
     number | null
   >(null);
+  const [pageNum, setPageNum] = useState(1);
+  const pageSize = 20;
 
-  const fetchBadgeApplications = async () => {
-    const { response } = await getBadgeList(processedStatus, nickName);
-    setApplications(response.content);
-  };
+  const { data } = useGetBadgeQuery(processedStatus, pageNum - 1, nickNameData);
+  const { rejectBadgeMutation, approveBadgeMutation } = useBadgeMutation(
+    processedStatus,
+    pageNum - 1,
+    selectedBadgeApplyId,
+    nickNameData
+  );
 
-  const handleBadgeStatus = async (badgeApplyId: number, process: string) => {
-    if (selectedBadgeApplyId !== null) {
-      await patchBadgeStatus(badgeApplyId, process);
-      fetchBadgeApplications();
-    }
-  };
   const columns: ColumnsType<BadgeApplication> = [
     {
       title: "",
@@ -120,13 +121,17 @@ const BadgeManagement = () => {
               <Option value="REJECTED">반려</Option>
             </Select>
           </div>
-          <div className="ml-4">
-            <CustomButton
-              onClick={fetchBadgeApplications}
-              styles="bg-red-500 place-self-end text-sm"
-              text="검색"
-            />
-          </div>
+          {searchType === "nickname" && (
+            <div className="ml-4">
+              <CustomButton
+                onClick={() => {
+                  setNickNameData(nickName);
+                }}
+                styles="bg-red-500 place-self-end text-sm"
+                text="검색"
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="flex justify-end mb-3">
@@ -137,7 +142,7 @@ const BadgeManagement = () => {
           styles="bg-orange-500 place-self-end mr-2 text-sm"
           onClick={() => {
             if (selectedBadgeApplyId !== null) {
-              handleBadgeStatus(selectedBadgeApplyId, "rejected");
+              rejectBadgeMutation.mutate();
             }
           }}
         />
@@ -146,15 +151,25 @@ const BadgeManagement = () => {
           styles="bg-blue-500 place-self-end mr-2 text-sm"
           onClick={() => {
             if (selectedBadgeApplyId !== null) {
-              handleBadgeStatus(selectedBadgeApplyId, "approved");
+              approveBadgeMutation.mutate();
             }
           }}
         />
       </div>
       <Table
+        size="small"
+        style={{ whiteSpace: "nowrap" }}
         columns={columns}
-        dataSource={applications}
+        dataSource={data?.response.content}
         rowKey={(record) => record.badgeApplyId}
+        pagination={{
+          total: data?.response.totalPage * pageSize,
+          current: pageNum,
+          pageSize,
+          onChange: (page) => {
+            setPageNum(page);
+          },
+        }}
       />
     </div>
   );

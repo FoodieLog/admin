@@ -6,10 +6,19 @@ import useUserStore from "@/store/useUserStore";
 import { Key, RowSelectionType } from "antd/es/table/interface";
 import useReportStore from "@/store/useReportStore";
 
-function TableForm({ columns, data, expand = false, page }: TableProps) {
+function TableForm({
+  columns,
+  data,
+  expand = false,
+  page,
+  pageNumber,
+  setPageNumber,
+  totalPage,
+}: TableProps) {
   const { setUserId, setNickName, setStatus } = useUserStore();
   const { setReportData } = useReportStore();
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
+  const pageSize = 20;
 
   const onSelectChange = (selectedRowKeys: Key[], selectedRows: any[]) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -34,8 +43,18 @@ function TableForm({ columns, data, expand = false, page }: TableProps) {
   return (
     <div>
       <Table
+        style={{ whiteSpace: "nowrap" }}
+        size="small"
         rowKey={(record) => (page === "user" ? record.userId : record.reportId)}
         rowSelection={rowSelection}
+        pagination={{
+          total: totalPage * pageSize,
+          current: pageNumber,
+          pageSize,
+          onChange: (page) => {
+            setPageNumber(page);
+          },
+        }}
         columns={columns}
         dataSource={data}
         expandable={

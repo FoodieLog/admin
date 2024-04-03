@@ -26,6 +26,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <body className={inter.className}>
+        <div id="modal-root"></div>
         <main className="flex min-h-screen mx-auto">
           <AuthCheck />
           <SideBar />
