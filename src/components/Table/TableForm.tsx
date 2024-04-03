@@ -13,10 +13,12 @@ function TableForm({
   page,
   pageNumber,
   setPageNumber,
+  totalPage,
 }: TableProps) {
   const { setUserId, setNickName, setStatus } = useUserStore();
   const { setReportData } = useReportStore();
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
+  const pageSize = 20;
 
   const onSelectChange = (selectedRowKeys: Key[], selectedRows: any[]) => {
     setSelectedRowKeys(selectedRowKeys);
@@ -41,14 +43,15 @@ function TableForm({
   return (
     <div>
       <Table
+        style={{ whiteSpace: "nowrap" }}
+        size="small"
         rowKey={(record) => (page === "user" ? record.userId : record.reportId)}
         rowSelection={rowSelection}
         pagination={{
-          total: 100,
+          total: totalPage * pageSize,
           current: pageNumber,
-          pageSize: 20,
+          pageSize,
           onChange: (page) => {
-            console.log(page);
             setPageNumber(page);
           },
         }}
