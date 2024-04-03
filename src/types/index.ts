@@ -19,6 +19,7 @@ export interface TableProps {
   page: "user" | "report";
   pageNumber: number;
   setPageNumber: Dispatch<SetStateAction<number>>;
+  totalPage: number;
   expand?: boolean;
 }
 
@@ -41,7 +42,8 @@ export interface ReportDataType {
   createdAt: string;
   detail: {
     content: string;
-    feedId: number;
+    feedId?: number;
+    id?: number;
     feedImages: string[];
   };
   reason: string;
