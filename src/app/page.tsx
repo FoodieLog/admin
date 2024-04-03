@@ -106,6 +106,7 @@ export default function Home() {
         disabled={blockLoading}
       />
       <TableForm
+        totalPage={data?.response.totalPage}
         columns={USER_LIST_COLUMNS}
         data={data?.response.content}
         page="user"
