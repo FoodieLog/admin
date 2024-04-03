@@ -17,7 +17,7 @@ function SideBar() {
   return (
     <section
       id="logo-sidebar"
-      className="sticky top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+      className="sticky top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 whitespace-nowrap"
       aria-label="Sidebar"
     >
       <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 ">
@@ -53,7 +53,7 @@ function SideBar() {
                   <li key={i}>
                     <Link
                       href={item.src}
-                      className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-200 "
+                      className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 pr-[84px] group hover:bg-gray-200 "
                     >
                       {item.title}
                     </Link>
