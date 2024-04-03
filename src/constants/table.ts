@@ -88,11 +88,12 @@ export const REPORT_LIST_COLUMNS: ColumnsType<ReportDataType> = [
     title: "신고시간",
     dataIndex: "createdAt",
     key: "createdAt",
+    render: (text: string) => formatDate(text),
   },
   {
     title: "처리시간",
     dataIndex: "updatedAt",
-    key: "updatedAt",
+    render: (text: string) => formatDate(text),
   },
   {
     title: "상태",
